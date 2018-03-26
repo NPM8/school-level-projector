@@ -39,7 +39,9 @@ class JSONUpdater extends Component {
     }
     //value={JSON.stringify(this.state.object, null, 5)}
     handleCopy(e) {
-
+        var copyText = document.getElementById("ala");
+        copyText.select();
+        document.execCommand("Copy");
     }
 
     componentDidMount() {

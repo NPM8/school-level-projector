@@ -11,11 +11,12 @@ class App extends Component {
                 mapWidth: 2,
                 mapHeight: 3,
                 items: [],
-                type: 'normal',
             },
+            type: 'normal',
         };
         this.handleObjectChange = this.handleObjectChange.bind(this);
         this.handleTypeChange = this.handleTypeChange.bind(this);
+        this.handleSizeChange = this.handleSizeChange.bind(this);
     }
 
     handleObjectChange(obj) {
@@ -31,6 +32,15 @@ class App extends Component {
         })
     }
 
+    handleSizeChange(width, height) {
+        this.setState(prevState => {
+            prevState.genObject.mapWidth = width;
+            prevState.genObject.mapHeight = height;
+            console.log(prevState)
+            return {object: prevState}
+        })
+    }
+
     handleTypeChange(e) {
         this.setState({
             type: e.target.value,
@@ -41,9 +51,10 @@ class App extends Component {
         console.log(this.state.genObject);
         return (
             <div className="App">
-                <Controls obeject={this.state.genObject} type={this.state.type}
-                          typeChange={this.handleTypeChange}  columne="first"/>
-                <Area object={this.state.genObject} type={this.state.type} columne="secend"/>
+                <Controls object={this.state.genObject} type={this.state.type}
+                          typeChange={this.handleTypeChange} sizeChange={this.handleSizeChange} columne="first"/>
+                <Area object={this.state.genObject} type={this.state.type} stateUpdate={this.handleObjectChange}
+                      columne="secend"/>
                 <JSONUpdater stateUpdate={this.handleObjectChange} object={this.state.genObject} columne="third"/>
             </div>
         );

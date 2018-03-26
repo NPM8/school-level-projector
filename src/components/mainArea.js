@@ -13,46 +13,90 @@ class Area extends Component {
     }
 
     componentWillReceiveProps(nProps) {
-        console.log(nProps)
         this.setState({
             object: nProps.object,
-            type: nProps.type,
         }, this.genObjects);
+        if (this.state.type !== nProps.type) {
+            this.setState({
+                type: nProps.type,
+            })
+        }
     }
 
     handleStateUpdate(props) {
-        props.forEach(value => {
-            if (this.state.elements.length > 0) {
-                let tmpTest = this.state.elements.findIndex(value2 => {
-                    if (value2.id === value.id)
+        if (this.state.object.items.length > 0) {
+            let tmpTest = this.state.object.items.findIndex(value2 => {
+                if (value2.id === props.id)
                         return value2;
                     else
                         return false;
                 });
                 if (tmpTest == -1) {
                     this.setState((prevState) => {
-                        prevState.elements.push(value);
+                        prevState.object.items.push(props);
                         return {
-                            elements: prevState.elements,
+                            object: prevState.object,
                         };
-                    });
+                    }, this.props.stateUpdate(this.state.object));
                 } else {
                     this.setState((prevState) => {
-                        prevState.elements[tmpTest] = value;
+                        prevState.object.items[tmpTest] = props;
                         return {
-                            elements: prevState.elements,
+                            object: prevState.object,
                         };
-                    });
+                    }, this.props.stateUpdate(this.state.object));
                 }
+        } else {
+            this.setState(prevState => {
+                prevState.object.items.push(props);
+                return {
+                    object: prevState.object,
+                }
+            }, this.props.stateUpdate(this.state.object));
             }
-        });
     }
 
     genObjects() {
         console.log(this.state.object);
         let tmpElems = [];
         if (this.state.object.items.length != 0) {
-
+            for (var i = 0; i < this.state.object.mapHeight; i++) {
+                for (var j = 0; j < this.state.object.mapWidth; j++) {
+                    let tmpTest = this.state.object.items.findIndex(value2 => {
+                        if (value2.id === `d${i}_${j}`)
+                            return value2;
+                        else
+                            return false;
+                    });
+                    console.log('tmpTest', tmpTest);
+                    if (tmpTest == -1) {
+                        tmpElems.push((<Element propertys={{
+                            top: `${(j % 2 === 1) ? i * 100 : (i * 100) + 50}px`,
+                            left: `${j * 100}px`,
+                            id: `d${i}_${j}`,
+                            x: i,
+                            z: j,
+                        }} stateUpdate={this.handleStateUpdate} clickType={this.state.type}/>))
+                    } else if (this.state.object.items[tmpTest].outWall != null) {
+                        tmpElems.push((<Element propertys={{
+                            top: `${(j % 2 === 1) ? i * 100 : (i * 100) + 50}px`,
+                            left: `${j * 100}px`,
+                            id: `d${i}_${j}`,
+                            x: i,
+                            z: j,
+                            out: this.state.object.items[tmpTest].outWall,
+                        }} stateUpdate={this.handleStateUpdate} clickType={this.state.type}/>))
+                    } else {
+                        tmpElems.push((<Element propertys={{
+                            top: `${(j % 2 === 1) ? i * 100 : (i * 100) + 50}px`,
+                            left: `${j * 100}px`,
+                            id: `d${i}_${j}`,
+                            x: i,
+                            z: j,
+                        }} stateUpdate={this.handleStateUpdate} clickType={this.state.type}/>))
+                    }
+                }
+            }
         } else {
             for (var i = 0; i < this.state.object.mapHeight; i++) {
                 for (var j = 0; j < this.state.object.mapWidth; j++) {

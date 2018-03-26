@@ -11,15 +11,17 @@ class Controls extends Component {
             idHeight: "987_Height",
             buttonTypes: ["normal", "test"]
         }
+        this.handleSizeChange = this.handleSizeChange.bind(this);
     }
 
     buttonsGen() {
         let tmpArray = [];
-        let tmpArray = this.state.buttonTypes.map(value => {
+        tmpArray = this.state.buttonTypes.map(value => {
             if(value == this.state.type) {
                 return (<button className={'active typeButton'} onClick={this.props.typeChange} value={value} >{value}</button>);
             } else {
-                return (<button className={'typeButton'} value={value}>{value}</button>);
+                return (
+                    <button className={'typeButton'} onClick={this.props.typeChange} value={value}>{value}</button>);
             }
         });
         return tmpArray;
@@ -31,11 +33,21 @@ class Controls extends Component {
                 object: nProps.object,
             })
         }
+        if (nProps.type !== this.state.type) {
+            this.setState({
+                type: nProps.type,
+            })
+        }
+    }
+
+    handleSizeChange() {
+        if ((document.getElementById(this.state.idWidth).value != this.state.object.mapWidth || document.getElementById(this.state.idHeight).value != this.state.object.mapHeight) && (document.getElementById(this.state.idWidth).value != null || document.getElementById(this.state.idHeight).value != null))
+            this.props.sizeChange(document.getElementById(this.state.idWidth).value, document.getElementById(this.state.idHeight).value);
     }
 
     componentDidMount() {
-        document.getElementById(this.state.idWidth).value = this.state.object.x;
-        document.getElementById(this.state.idHeight).value = this.state.object.z;
+        document.getElementById(this.state.idWidth).value = this.state.object.mapWidth;
+        document.getElementById(this.state.idHeight).value = this.state.object.mapHeight;
     }
 
     componentDidUpdate() {
@@ -47,8 +59,9 @@ class Controls extends Component {
         return (<div style={{
             gridColumn: this.props.columne
         }}>
-            <input type="text" id={this.state.idWidth} onChange={this.}/>
+            <input type="text" id={this.state.idWidth}/>
             <input type="text" id={this.state.idHeight}/>
+            <button onClick={this.handleSizeChange}> Update</button>
             <div className="divider"/>
             <div className="typeHandler">
                 {this.buttonsGen()}
