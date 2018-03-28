@@ -12,7 +12,7 @@ class App extends Component {
                 mapHeight: 3,
                 items: [],
             },
-            type: 'normal',
+            type: 'WALL',
         };
         this.handleObjectChange = this.handleObjectChange.bind(this);
         this.handleTypeChange = this.handleTypeChange.bind(this);

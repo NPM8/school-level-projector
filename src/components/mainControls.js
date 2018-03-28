@@ -9,7 +9,7 @@ class Controls extends Component {
             object: this.props.object,
             idWidth: "987_Width",
             idHeight: "987_Height",
-            buttonTypes: ["normal", "test"]
+            buttonTypes: ["WALL", "ENEMY", "LIGHT", "TREASURE"]
         }
         this.handleSizeChange = this.handleSizeChange.bind(this);
     }
@@ -57,14 +57,25 @@ class Controls extends Component {
 
     render() {
         return (<div style={{
-            gridColumn: this.props.columne
+            gridColumn: this.props.columne,
+            display: "flex",
+            flexDirection: "column",
         }}>
-            <input type="text" id={this.state.idWidth}/>
-            <input type="text" id={this.state.idHeight}/>
-            <button onClick={this.handleSizeChange}> Update</button>
-            <div className="divider"/>
-            <div className="typeHandler">
-                {this.buttonsGen()}
+            <div className="holder">
+                <div style={{
+                    display: "inline-flex",
+                    flexDirection: "row",
+                    marginBottom: "10px",
+                }}>
+                    <input type="text" id={this.state.idWidth}/>
+                    <span>x</span>
+                    <input type="text" id={this.state.idHeight}/>
+                </div>
+                <button onClick={this.handleSizeChange}> Update</button>
+                <div className="divider"/>
+                <div className="typeHandler">
+                    {this.buttonsGen()}
+                </div>
             </div>
         </div>);
     }

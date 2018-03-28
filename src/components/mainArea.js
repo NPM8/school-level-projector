@@ -12,6 +12,10 @@ class Area extends Component {
         this.handleStateUpdate = this.handleStateUpdate.bind(this);
     }
 
+    genBefor() {
+
+    }
+
     componentWillReceiveProps(nProps) {
         this.setState({
             object: nProps.object,
@@ -25,6 +29,7 @@ class Area extends Component {
 
     handleStateUpdate(props) {
         if (this.state.object.items.length > 0) {
+            this.isNeseseryToCreateInWall(1,0,0);
             let tmpTest = this.state.object.items.findIndex(value2 => {
                 if (value2.id === props.id)
                         return value2;

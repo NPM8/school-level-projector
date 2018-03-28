@@ -1,0 +1,30 @@
+.divider {
+    border-top: 1px solid black;
+    margin: 20px 10px;
+}
+
+input[type=text] {
+    width: 45%;
+}
+
+span {
+    width: 10%;
+    text-align: center;
+    justify-content: center;
+}
+
+.holder {
+    max-width: 200px;
+    display: flex;
+    flex-direction: column;
+    margin: 10px auto;
+}
+
+.typeHandler {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.typeButton {
+    margin: 5px;
+}
