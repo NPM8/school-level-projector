@@ -10,7 +10,7 @@ class Controls extends Component {
             idWidth: "987_Width",
             idHeight: "987_Height",
             buttonTypes: ["WALL", "ENEMY", "LIGHT", "TREASURE"]
-        }
+        };
         this.handleSizeChange = this.handleSizeChange.bind(this);
     }
 

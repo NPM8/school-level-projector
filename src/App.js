@@ -17,6 +17,40 @@ class App extends Component {
         this.handleObjectChange = this.handleObjectChange.bind(this);
         this.handleTypeChange = this.handleTypeChange.bind(this);
         this.handleSizeChange = this.handleSizeChange.bind(this);
+        this.genBefor = this.genBefor.bind(this);
+    }
+
+    genBefor() {
+        this.setState(prevState => {
+            prevState.genObject.items.forEach((value, index) => {
+                console.log("genBefor", value);
+                if(prevState.genObject.items[index-1]) {
+                    if(!prevState.genObject.items[index-1].outWall)
+                    {
+                        return;
+                    }
+                    switch (prevState.genObject.items[index-1].outWall) {
+                        case 1:
+                        case 2:
+                        case 3:
+                            value.inWall = prevState.genObject.items[index-1].outWall + 3;
+                            break;
+                        case 4:
+                        case 5:
+                        case 6:
+                            value.inWall = 1+ (prevState.genObject.items[index-1].outWall - 4);
+                            break;
+                        default:
+                            delete value.inWall;
+                            break;
+                    }
+                }
+            })
+            return {
+                genObject: prevState.genObject,
+            }
+        })
+
     }
 
     handleObjectChange(obj) {
@@ -29,7 +63,7 @@ class App extends Component {
                     items: []
                 } : obj,
             }
-        })
+        }, this.genBefor)
     }
 
     handleSizeChange(width, height) {
